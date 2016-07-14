@@ -10,9 +10,10 @@ import com.java.prad.planner.Activity;
 
 public class ReadActivities {
 	
-	 static List<Activity> listOfActivities = new ArrayList<>();
+	 
 	
 	public static List<Activity>  readActivities(String path){
+		List<Activity> listOfActivities = new ArrayList<>();
 		try {
 			for (String line : Files.readAllLines(Paths.get(path))) {
 				Activity a = new Activity(line.substring(0, line.lastIndexOf(" ")), line.substring(line.lastIndexOf(" ") + 1));
