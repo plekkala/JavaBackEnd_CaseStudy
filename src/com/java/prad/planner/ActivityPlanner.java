@@ -14,61 +14,35 @@ public class ActivityPlanner {
 	static Date dateTime;
 	public static String actualTime = "09:00 AM";
 	static int nTeams;
-	static List<Activity> listOfActivities = new ArrayList<>();
+	//static List<Activity> listOfActivities = new ArrayList<>();
 
 	public static void main(String[] args) {
 
-		listOfActivities = ReadActivities.readActivities(args[0]);
+		List<Activity> activities	 = ReadActivities.readActivities(args[0]);
+		List<Activity> listOfActivities = new ArrayList<>();
 		nTeams = Integer.valueOf(args[1]);
-
-		/*
-		 * try { for (String line : Files.readAllLines(Paths.get(
-		 * "/Users/Radhika/Documents/workspace/CoreJava/Deloitte/activities.txt"
-		 * ))) { Activity a = new Activity(line.substring(0, line.lastIndexOf(
-		 * " ")), line.substring(line.lastIndexOf(" ") + 1));
-		 * listOfActivities.add(a); }
-		 * 
-		 * 
-		 * } catch (IOException e) { e.printStackTrace(); }
-		 */
-
-		Collections.shuffle(listOfActivities);
-		System.out.println(listOfActivities);
 		for (int n = 1; n <= nTeams; n++) {
-			List<Activity> teamOneActivities = createTimetable(0, listOfActivities);
+			listOfActivities =activities;
+			Collections.shuffle(listOfActivities);
+			
+			System.out.println(listOfActivities.size());
+			
+			
+			List<Activity> teamActivities = createTimetable(0, listOfActivities);
+			
 			System.out.println("Team "+n+" Activities" + "\n");
-			for (int i = 0; i < teamOneActivities.size(); i++) {
-				displayActivities(teamOneActivities.get(i));
-				System.out.println(teamOneActivities.get(i));
+			
+			for (int i = 0; i < teamActivities.size(); i++) {
+				
+				displayActivities(teamActivities.get(i));
+				
+				System.out.println(teamActivities.get(i));
 			}
 			System.out.println( "\n");
 		}
-		/*
-		 * System.out.println("Team 1 Activities" + "\n"); List<Activity>
-		 * teamOneActivities = createTimetable(0, listOfActivities); for(int i
-		 * =0; i<teamOneActivities.size(); i++){ if(i==0){ actualTime =
-		 * initDate(); teamOneActivities.get(i).setStartTime(actualTime);
-		 * 
-		 * } else{ displayActivities(teamOneActivities.get(i)); }
-		 * displayActivities(teamOneActivities.get(i));
-		 * System.out.println(teamOneActivities.get(i)); }
-		 */
-
-		/*
-		 * List<Activity> teamTwoActivities = createTimetable(0,
-		 * listOfActivities);
-		 * 
-		 * 
-		 * System.out.println("\n" + "Team 2 Activities" + "\n"); for(int i =0;
-		 * i<teamTwoActivities.size(); i++){
-		 * displayActivities(teamOneActivities.get(i));
-		 * System.out.println(teamOneActivities.get(i));
-		 * 
-		 * }
-		 */
 	}
 
-	private static String initDate() {
+	/*private static String initDate() {
 		String intialTime = "09:00 AM";
 		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
 		try {
@@ -84,7 +58,7 @@ public class ActivityPlanner {
 		return intialTime;
 
 	}
-
+*/
 	public static Activity displayActivities(Activity activity) {
 		activity.setStartTime(date(String.valueOf(0)));
 		activity.setEndTime(date(String.valueOf((activity.getTimeChunk()))));
@@ -107,14 +81,17 @@ public class ActivityPlanner {
 		return actualTime;
 	}
 
-	public static ArrayList<Activity> createTimetable(double time, List<Activity> listOfActivities) {
+	public static ArrayList<Activity> createTimetable(double time, final List<Activity> la) {
 		ArrayList<Activity> timetable = new ArrayList<Activity>();
-		List<Activity> list =  listOfActivities;
+		List<Activity> list =  new ArrayList<Activity>(la);
+		
 
 		for (int i = 0; i < list.size(); i++) {
 
 			if (time + list.get(i).getTimeChunk() <= 180) {
-
+				list.get(i).setStartTime(date(String.valueOf(0)));
+				list.get(i).setEndTime(date(String.valueOf((list.get(i).getTimeChunk()))));
+				
 				timetable.add(list.get(i));
 				time += list.get(i).getTimeChunk();
 				// System.out.println(time);
@@ -128,6 +105,8 @@ public class ActivityPlanner {
 		for (int i = 0; i < list.size(); i++) {
 
 			if (time + list.get(i).getTimeChunk() <= 480) {
+				list.get(i).setStartTime(date(String.valueOf(0)));
+				list.get(i).setEndTime(date(String.valueOf((list.get(i).getTimeChunk()))));
 				timetable.add(list.get(i));
 				time += list.get(i).getTimeChunk();
 				// System.out.println(time);
@@ -137,7 +116,7 @@ public class ActivityPlanner {
 		time += 60;
 		timetable.add(new Activity("Staff Motivation Presentation", "60"));
 		// System.out.println(time);
-
+		actualTime="9:00 AM";
 		return timetable;
 	}
 }
