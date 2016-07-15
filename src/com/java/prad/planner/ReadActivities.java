@@ -16,8 +16,8 @@ public class ReadActivities {
 		List<Activity> listOfActivities = new ArrayList<>();
 		try {
 			for (String line : Files.readAllLines(Paths.get(path))) {
-				Activity a = new Activity(line.substring(0, line.lastIndexOf(" ")), line.substring(line.lastIndexOf(" ") + 1));
-				listOfActivities.add(a);
+				Activity activity = new Activity(line.substring(0, line.lastIndexOf(" ")), line.substring(line.lastIndexOf(" ") + 1));
+				listOfActivities.add(activity);
 			    }	
 		} catch (IOException e) {
 			e.printStackTrace();
