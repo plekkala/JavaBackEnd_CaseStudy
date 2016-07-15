@@ -7,14 +7,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.java.prad.planner.Activity;
-
+/**
+ * Utility class used to read the file with activities
+ * 
+ * @author Pradeep Lekkala
+ */
 public class ReadActivities {
 	
 	 
 	/**
-	 *Method to read the sample activites file and storing data into List
+	 *Method to read the sample activities file and storing data into List
 	 *
-	 * @param path Input File path
+	 * @param   path Input file path
+	 * @return List of activities 
 	 */
 	public static List<Activity>  readActivities(String path){
 		List<Activity> listOfActivities = new ArrayList<>();

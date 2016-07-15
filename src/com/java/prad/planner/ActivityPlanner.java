@@ -65,20 +65,20 @@ public class ActivityPlanner {
 			boolean matchLunchTime = teamActivities.contains(new Activity("Lunch Break","60min",null,"12:00 PM","01:00 PM"));
 
 
-			if(matchLunchTime){
+			/*if(matchLunchTime){
 				System.out.println("Team "+n+":");
 				for (int i = 0; i < teamActivities.size(); i++) {
-
-
-					//System.out.println(teamActivities);
-					//		endTime=12:00 PM], Activity [activity=Lunch Break, timeTaken=60min, timeChunk=60, startTime=null, endTime=null], A
-
 					planner.displayActivities(teamActivities.get(i));
-
 				}
-
 				System.out.println( "\n");
 			}
+		*/
+				System.out.println("Team "+n+":");
+				for (int i = 0; i < teamActivities.size(); i++) {
+					planner.displayActivities(teamActivities.get(i));
+				}
+				System.out.println( "\n");
+			
 		}
 	}
 
@@ -98,73 +98,68 @@ public class ActivityPlanner {
 		Collections.shuffle(listOfActivities);
 	}
 	/**
-	 *Method to load the activites into the List Object and reload if the activities if the size decreases<br>
-	 * also shuffle the activities to randomize the pick
-	 * @param filePath Input File path
+	 * Method to generate the activites based in the amount of time taken for each ativity<br>
+	 * also it does generate events for lunch time and presentation time 
+	 * @return ArrayList<Activity> of Activities
 	 */
 	public ArrayList<Activity> generateActivites() {
 		double time =0;
-		ArrayList<Activity> timetable = new ArrayList<Activity>();
+		ArrayList<Activity> activityTable = new ArrayList<Activity>();
 		//Reset time for each loop
 		actualTime="9:00 AM";
-
+		//Morning Activities
 		for (Iterator<Activity> iterator = listOfActivities.iterator(); iterator.hasNext();) {
 			Activity activity = iterator.next();
-			if(!activity.getTimeTaken().equals("sprint")){
 				if (time + activity.getTimeChunk() <= 180) {
-					activity.setStartTime(date(String.valueOf(0)));
-					activity.setEndTime(date(String.valueOf((activity.getTimeChunk()))));
-					timetable.add(activity);
+					activityTable.add(setStartAndEndTime(activity));
 					time += activity.getTimeChunk();
 					iterator.remove();
 				}
-			}
 		}
-
+		//Lunch Time Addition
 		time += 60;
-		//aroundLunchActivities(list,timetable);
-
 		Activity lunch = new Activity(LUNCH_DESCRIPTION, LUNCH_TIME);
-		/*
-		lunch.setStartTime(date(String.valueOf(0)));
-		lunch.setEndTime(date(String.valueOf((lunch.getTimeChunk()))));
-
-		 */
-		timetable.add(setStartAndEndTime(lunch));
+		activityTable.add(setStartAndEndTime(lunch));
+		//Post Lunch Activites
 		for (Iterator<Activity> iterator = listOfActivities.iterator(); iterator.hasNext();) {
 			Activity activity = iterator.next();
 			if (time + activity.getTimeChunk() <= 480) {
-				activity.setStartTime(date(String.valueOf(0)));
-				activity.setEndTime(date(String.valueOf((activity.getTimeChunk()))));
-				timetable.add(activity);
+				activityTable.add(setStartAndEndTime(activity));
 				time += activity.getTimeChunk();
 				iterator.remove();
 			}
 		}
+		//Presentation Time Addition
 		time += 60;
 		Activity presentation = new Activity(PRESENTATION_DESCRIPTION, "");
-
-		/*presentation.setStartTime(date(String.valueOf(0)));
-		presentation.setEndTime(date(String.valueOf((lunch.getTimeChunk()))));
-		 */timetable.add(setStartAndEndTime(presentation));
+		activityTable.add(setStartAndEndTime(presentation));
 		 actualTime="9:00 AM";
-		 return timetable;
+		 return activityTable;
 	}
-
+	
+	/**
+	 * Method to display the generated activites with time slots into console
+	 * @param activity  activity to be displayed
+	 */
 	public Activity displayActivities(Activity activity) {
-		/*activity.setStartTime(date(String.valueOf(0)));
-		activity.setEndTime(date(String.valueOf((activity.getTimeChunk()))));
-		 */System.out.println(activity.getStartTime()+" : "+activity.getActivity()+" "+activity.getTimeTaken());
-
+		System.out.println(activity.getStartTime()+" : "+activity.getActivity()+" "+activity.getTimeTaken());
 		 return activity;
 	}
 
+	/**
+	 * Method to set startTime and endTime of each activity
+	 * @param activity  activity to be set
+	 */
 	public Activity setStartAndEndTime(Activity activity) {
 		activity.setStartTime(date(String.valueOf(0)));
 		activity.setEndTime(date(String.valueOf((activity.getTimeChunk()))));
 		return activity;
 	}
-
+	
+	/**
+	 * Method to generate the Time based on the amount of time taken for a activity
+	 * @param amt  amount of time for taken for a activity
+	 */
 	public static String date(String amt) {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
@@ -180,6 +175,12 @@ public class ActivityPlanner {
 		}
 		return actualTime;
 	}
+	
+	/**
+	 * @deprecated
+	 * To be Developed
+	 * Method to generate difference amount of time during lunchTime and previous activity
+	 */
 	private static long difference() {
 		long diffMinutes = 0;
 		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
@@ -196,8 +197,13 @@ public class ActivityPlanner {
 		return diffMinutes;
 
 	}
-
-	public String aroundLunchActivities(List<Activity> list, ArrayList<Activity> timetable){
+	
+	/**
+	 * @deprecated
+	 * To be Developed
+	 * Method to generate difference amount of time during lunchTime and previous activity
+	 */
+	public String aroundLunchActivities(List<Activity> list, ArrayList<Activity> table){
 		System.out.println("aroundLunchActivities start");
 		long timeGap = difference();
 		System.out.println("difference:"+timeGap);
@@ -208,7 +214,7 @@ public class ActivityPlanner {
 					if(activity.getTimeTaken().equals("sprint")){
 						activity.setStartTime(date(String.valueOf(0)));
 						activity.setEndTime(date(String.valueOf((activity.getTimeChunk()))));
-						timetable.add(activity);
+						table.add(activity);
 						time += activity.getTimeChunk();
 						iterator.remove();
 						break;	
@@ -217,10 +223,8 @@ public class ActivityPlanner {
 				}
 			}
 		}
-
 		System.out.println("aroundLunchActivities end");
 		return null;
-
 	}
-
+	
 }

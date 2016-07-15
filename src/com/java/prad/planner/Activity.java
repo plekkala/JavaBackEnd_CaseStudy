@@ -1,5 +1,9 @@
 package com.java.prad.planner;
-
+/**
+ * Model class used as Object 
+ * 
+ * @author Pradeep Lekkala
+ */
 public class Activity {
 
 	String activity;
