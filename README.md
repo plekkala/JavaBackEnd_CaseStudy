@@ -2,8 +2,7 @@
 
 This README would normally document whatever steps are necessary to get your application up and running.
 
-* Quick summary
-Quick summary Application to run Activity Planneer. The resultant output will be on the console containing the schedule of activities according to the start time and amount of time for each activity
+* Quick summary:Application to run Activity Planner. The resultant output will be on the console containing the schedule of activities with the start time and amount of time for each activity
 
 ### How do I get set up? ###
 
