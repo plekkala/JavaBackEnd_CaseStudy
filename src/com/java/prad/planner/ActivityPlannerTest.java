@@ -1,6 +1,5 @@
 package com.java.prad.planner;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import org.junit.Before;

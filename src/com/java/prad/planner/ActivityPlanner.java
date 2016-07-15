@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * Main class for running the Activity Planner with user provided List of activities data.
  * The resultant output will schedule activities according to the start time and amount of time for each task
- * The Input file path is passed as argument  
+ * The Input file path is passed as argument and number of teams to be split is passed as argument
  * @param   args
  * 
  *
