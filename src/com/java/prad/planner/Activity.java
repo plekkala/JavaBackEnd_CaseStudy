@@ -89,14 +89,16 @@ public class Activity {
 	}
 	
 	public  int getTimeChunk(){
-		Double time;
-		//System.out.println(this.timeTaken);
+		Double time =0D;
 		String taskTime = this.timeTaken;
-		if(taskTime.equals("sprint")){
-			 time = 15D;
+		if(taskTime!=null && taskTime.length()>0){
+			if(taskTime.equals("sprint")){
+				 time = 15D;
+			}
+			else
+				time = Double.parseDouble(taskTime.replace("min", ""));
+			
 		}
-		else
-			time = Double.parseDouble(taskTime.replace("min", ""));
 		
 		//System.out.println("time:"+time.intValue());
 		return time.intValue();

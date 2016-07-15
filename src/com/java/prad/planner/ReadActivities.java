@@ -11,7 +11,11 @@ import com.java.prad.planner.Activity;
 public class ReadActivities {
 	
 	 
-	
+	/**
+	 *Method to read the sample activites file and storing data into List
+	 *
+	 * @param path Input File path
+	 */
 	public static List<Activity>  readActivities(String path){
 		List<Activity> listOfActivities = new ArrayList<>();
 		try {
