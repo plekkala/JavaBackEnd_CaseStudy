@@ -7,7 +7,7 @@ This README would normally document whatever steps are necessary to get your app
 ### How do I get set up? ###
 
 * Summary of set up
-1. To run this Application , user has to provide two input arguments to main method of ActivityPlanner.java
+   * To run this Application , user has to provide two input arguments to main method of ActivityPlanner.java
 Path of Input file location
 No of teams to which activities are to be associated
 * Configuration
