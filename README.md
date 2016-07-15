@@ -19,13 +19,15 @@ This README would normally document whatever steps are necessary to get your app
 * To run this Application, user has to provide two input arguments to main method of ActivityPlanner.java  (Path of Input file location) and (No of teams to which activities are to be associated)
 
 ### Configuration ###
-* Path of Input file location
-* No of teams to which activities are to be associated
+* Path of Input file location Example :(/Users/pradeep/Documents/workspace/CoreJava/JavaTest/activities.txt)
+* No of teams to which activities are to be associated Example:(10)
 
 ###Deployment instructions###
 * Java 1.8
-* Import the project into eclipse
-* Run ActivityPlanner.java
+* Import the project into eclipse and run from there or
+* Download the jar file 
+* cd to location of jar file and run the below command
+* java -cp JavaTest.jar com.java.prad.planner.ActivityPlanner "/Users/Radhika/Documents/workspace/CoreJava/Deloitte/activities.txt" "10"
 
 ### Who do I talk to? ###
 
