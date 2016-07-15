@@ -13,7 +13,7 @@ This README would normally document whatever steps are necessary to get your app
 * Assumed that a activity can be repeated if the expected team size is more than 2
 * Assumed that if the expected team size is 2, then all the current sample of 20 activities will be grouped into two teams.
 * The solution can be scalable to increase into more teams and more activities as well.
-* Also a small piece of code is in @deprecated which can be improved to make it more effective.
+* Also a small piece of code is in deprecated which can be improved to make it more effective.
 
 ### Summary of Setup ###
 * To run this Application, user has to provide two input arguments to main method of ActivityPlanner.java  (Path of Input file location) and (No of teams to which activities are to be associated)
