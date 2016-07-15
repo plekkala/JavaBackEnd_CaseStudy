@@ -15,6 +15,7 @@
  */
 package com.java.prad.planner;
 
+import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,24 +36,38 @@ import java.util.List;
  */
 public class ActivityPlanner {
 
-	static double time = 0.0;
-	static Date dateTime;
+	public static Date dateTime;
 	public static String actualTime = "09:00 AM";
-	public static final String startLunchTime= "12:00 PM";
 	public static final String LUNCH_DESCRIPTION="Lunch Break";
 	public static final String PRESENTATION_DESCRIPTION="Staff Motivation Presentation";
+	public static final String STARTLUNCHTIME= "12:00 PM";
+	public static final String ENDLUNCHTIME= "01:00 PM";
 	public static final String LUNCH_TIME="60min";
 	static List<Activity> listOfActivities = new ArrayList<>();
+	
+	
 	/**
 	 * Main Method to run the application
 	 *
 	 * @param args Input File location
+	 * @throws FileNotFoundException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args)  {
 		int nTeams;
+		if(args.length!=2){
+			System.out.println("Input Arguments are wrong. Please pass two arguments to the application");
+			System.out.println("args[0]-- Path of the Activities File");
+			System.out.println("args[1]-- No of teams to be generated and value should be > 1");
+			System.exit(1);
+			
+		}
+		if(Integer.valueOf(args[1])<=1){
+			System.out.println("args[1]-- No of teams to be generated and value should be > 1");
+			System.exit(1);	
+		}
+
 		String filePath= args[0];
 		nTeams = Integer.valueOf(args[1]);
-
 		ActivityPlanner planner = new ActivityPlanner();
 
 		for (int n = 1; n <= nTeams; n++) {
@@ -60,24 +75,28 @@ public class ActivityPlanner {
 			planner.initActivities(filePath);
 
 			List<Activity> teamActivities = planner.generateActivites();
+			
+			
+			// Display only the activities for which the Lunch Time starts at 12:00
+			
+			boolean matchLunchTime = teamActivities
+					.contains(new Activity(LUNCH_DESCRIPTION, LUNCH_TIME, null, STARTLUNCHTIME, ENDLUNCHTIME));
 
-
-			boolean matchLunchTime = teamActivities.contains(new Activity("Lunch Break","60min",null,"12:00 PM","01:00 PM"));
-
-
-			/*if(matchLunchTime){
-				System.out.println("Team "+n+":");
+			if (matchLunchTime) {
+				System.out.println("Team " + n + ":");
 				for (int i = 0; i < teamActivities.size(); i++) {
 					planner.displayActivities(teamActivities.get(i));
 				}
-				System.out.println( "\n");
+				System.out.println("\n");
 			}
-		*/
-				System.out.println("Team "+n+":");
+			
+			// Display All the activities including the activities  with lunch time before 12:00
+			
+			/*	System.out.println("Team "+n+":");
 				for (int i = 0; i < teamActivities.size(); i++) {
 					planner.displayActivities(teamActivities.get(i));
 				}
-				System.out.println( "\n");
+				System.out.println( "\n");*/
 			
 		}
 	}
@@ -86,10 +105,23 @@ public class ActivityPlanner {
 	 *Method to load the activites into the List Object and reload if the activities if the size decreases<br>
 	 * also shuffle the activities to randomize the pick
 	 * @param filePath Input File path
+	 * @throws FileNotFoundException 
 	 */
 	public void initActivities(String filePath) {
 
-		List<Activity> activitiesFromFile	 = ReadActivities.readActivities(filePath);
+		List<Activity> activitiesFromFile = null;
+		try {
+			activitiesFromFile = ReadActivities.readActivities(filePath);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Error in Reading file");
+			System.exit(-1);
+		}
+		
+		if(activitiesFromFile.isEmpty()){
+			System.out.println("Erorr in loading file. Please Check the file location or the contents inside the file");
+			System.exit(-1);
+		}
 
 		if(listOfActivities.size()<6){
 			listOfActivities = new ArrayList<>(activitiesFromFile);
@@ -186,7 +218,7 @@ public class ActivityPlanner {
 		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
 		try {
 			Date endTime = sdf.parse(actualTime);
-			Date lunchTime = sdf.parse(startLunchTime);
+			Date lunchTime = sdf.parse(STARTLUNCHTIME);
 
 			long diff = lunchTime.getTime() - endTime.getTime();
 			diffMinutes = diff / (60 * 1000) % 60;
@@ -215,7 +247,7 @@ public class ActivityPlanner {
 						activity.setStartTime(date(String.valueOf(0)));
 						activity.setEndTime(date(String.valueOf((activity.getTimeChunk()))));
 						table.add(activity);
-						time += activity.getTimeChunk();
+						int time = activity.getTimeChunk();
 						iterator.remove();
 						break;	
 					}
